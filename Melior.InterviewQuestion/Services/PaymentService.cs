@@ -22,18 +22,15 @@ namespace Melior.InterviewQuestion.Services
             var accountRetrieved = AccountLookup(account, request, dataStoreType);     
 
             var paymentResult = new MakePaymentResult();
-
-            
+         
             // Getting Payment scheme request and fetching value of Enum in AllowedPaymentSchemes
             MappingEnums.TryGetValue(request.PaymentScheme, out AllowedPaymentSchemes val);
-
 
             var success = accountRetrieved?.AllowedPaymentSchemes.HasFlag(val) ?? false;
 
             // checking if account is in a valid state
             switch (request.PaymentScheme)
-            {
-                
+            {               
                 case PaymentScheme.FasterPayments:
                     success &= accountRetrieved.Balance > request.Amount;                                    
                     break;
@@ -89,7 +86,6 @@ namespace Melior.InterviewQuestion.Services
         private string GetSettingValue(string value)
         {
             return ConfigurationManager.AppSettings[value];
-
         }
 
         private IDictionary<PaymentScheme, AllowedPaymentSchemes> MappingEnums = new Dictionary<PaymentScheme, AllowedPaymentSchemes>
